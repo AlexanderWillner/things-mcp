@@ -57,7 +57,7 @@ test:
 
 # Run GitHub Actions workflow locally using act
 test-ci job-name="":
-	act --container-architecture linux/amd64 --pull=false -j "{{job-name}}"
+	act --pull=false -j "{{job-name}}"
 
 # Clean the project
 clean:
@@ -84,4 +84,3 @@ tag:
 # Install the CLI as an executable in the system
 install:
 	pip install --break-system-packages .
-

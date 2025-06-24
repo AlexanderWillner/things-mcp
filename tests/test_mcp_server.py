@@ -5,11 +5,12 @@ Test suite for the MCP server using pytest framework.
 
 import json
 import socket
-from unittest.mock import patch, MagicMock
-import pytest
 import unittest
+from unittest.mock import MagicMock, patch
 
-from things_mcp.mcp import find_available_port, handle_get_todos, handle_get_projects
+import pytest
+
+from things_mcp.mcp import find_available_port, handle_get_projects, handle_get_todos
 
 
 class TestMCPServerFunctions(unittest.TestCase):
@@ -116,7 +117,7 @@ class TestMCPServerFunctions(unittest.TestCase):
 class TestMCPServerIntegration(unittest.TestCase):
     """Integration tests for the MCP server."""
 
-    def setup_method(self):
+    def setUp(self):
         """Set up test client connection."""
         self.server_host = "127.0.0.1"
         # Use a different port for testing to avoid conflicts
