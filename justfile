@@ -104,7 +104,10 @@ tag:
 	uv build
 	uv lock
 	git add pyproject.toml uv.lock
-	git commit -m "Release $NEW_TAG" pyproject.toml uv.lock
+	# Only commit if there are changes
+	if ! git diff --cached --quiet; then
+		git commit -m "Release $NEW_TAG" pyproject.toml uv.lock
+	fi
 	git tag -a $NEW_TAG -m "Release $NEW_TAG"
 	git push --follow-tags origin HEAD
 
