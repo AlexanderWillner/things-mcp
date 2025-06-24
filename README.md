@@ -2,8 +2,8 @@
 
 A Python CLI MCP (Model Context Protocol) server for Things 3, enabling programmatic access to todos and projects, including filtering by due date. Designed for automation, scripting, and integration with other tools.
 
-[![Build Status](https://github.com/your-org/things-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/your-org/things-mcp/actions/workflows/ci.yml)
-[![License](https://img.shields.io/github/license/your-org/things-mcp)](LICENSE)
+[![Build Status](https://github.com/alexanderwillner/things-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/alexanderwillner/things-mcp/actions/workflows/ci.yml)
+[![License](https://img.shields.io/github/license/alexanderwillner/things-mcp)](LICENSE)
 [![Coverage Status](https://img.shields.io/badge/coverage-100%25-brightgreen)](coverage.xml)
 
 ## Features
