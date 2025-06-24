@@ -18,6 +18,8 @@ jobs:
         run: pip install uv
       - name: Install project dependencies
         run: uv pip install --system --upgrade --require-hashes -r requirements.txt || uv pip install --system .
+      - name: Just
+        uses: extractions/setup-just@v2
       - name: Lint
         run: just lint
       - name: Test
