@@ -72,14 +72,40 @@ prepare:
 
 # Tag a new version
 tag:
-    NEW_TAG=$(echo {{TAG}} | awk -F. '{print $1"."$2"."$3+1}') && \
-    echo "Tagging version $NEW_TAG" && \
-    uv tool run --from=toml-cli toml set --toml-path=pyproject.toml project.version $NEW_TAG && \
-    uv build && \
-    uv lock && \
-    git commit -m "Release $NEW_TAG" pyproject.toml uv.lock && \
-    git tag -a $NEW_TAG -m "Release $NEW_TAG" && \
-    git push origin $NEW_TAG
+    set -euo pipefail
+    # Ensure working directory is clean
+    if [ -n "$(git status --porcelain)" ]; then \
+        echo "Error: Working directory is not clean. Commit or stash your changes before tagging." >&2; \
+        exit 1; \
+    fi
+    # Ensure remote exists
+    if ! git remote | grep -q '^origin$'; then \
+        echo "Error: Remote 'origin' does not exist." >&2; \
+        exit 1; \
+    fi
+    # Get latest tag or default
+    LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0")
+    # Always initialize NEW_TAG
+    NEW_TAG=""
+    # Parse version and increment patch (only X.Y.Z supported)
+    if echo "$LATEST_TAG" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then \
+        NEW_TAG=$(echo "$LATEST_TAG" | awk -F. '{printf "%d.%d.%d", $1, $2, $3+1}'); \
+    else \
+        NEW_TAG="0.0.1"; \
+    fi
+    # Check if tag already exists
+    if git tag | grep -qx "$NEW_TAG"; then \
+        echo "Error: Tag $NEW_TAG already exists." >&2; \
+        exit 1; \
+    fi
+    echo "Tagging version $NEW_TAG"
+    uv tool run --from=toml-cli toml set --toml-path=pyproject.toml project.version $NEW_TAG
+    uv build
+    uv lock
+    git add pyproject.toml uv.lock
+    git commit -m "Release $NEW_TAG" pyproject.toml uv.lock
+    git tag -a $NEW_TAG -m "Release $NEW_TAG"
+    git push --follow-tags origin HEAD
 
 # Install the CLI as an executable in the system
 install:
