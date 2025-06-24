@@ -1,0 +1,40 @@
+repos:
+-   repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v4.2.0
+    hooks:
+    - id: conventional-pre-commit
+      stages: [commit-msg]
+      args: []
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+    -   id: check-yaml
+    -   id: end-of-file-fixer
+    -   id: trailing-whitespace
+    -   id: check-merge-conflict
+    -   id: detect-private-key
+    - id: check-added-large-files
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.11.8
+  hooks:
+    - id: ruff
+    - id: ruff
+      args: ["check", "--select", "I", "--fix"]
+    - id: ruff-format
+    - id: ruff
+- repo: https://github.com/pycqa/bandit
+  rev: 1.8.3
+  hooks:
+  - id: bandit
+- repo: local
+  hooks:
+    - id: just-sync
+      name: Just Sync
+      entry: just sync
+      language: system
+      pass_filenames: false
+    - id: just-lint
+      name: Just Lint
+      entry: just lint
+      language: system
+      pass_filenames: false

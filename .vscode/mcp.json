@@ -1,0 +1,9 @@
+{
+    "servers": {
+        "things": {
+            "type": "stdio",
+            "command": "things-mcp",
+            "args": []
+        }
+    }
+}
