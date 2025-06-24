@@ -12,3 +12,5 @@ wheels/
 # Linters and formatters
 .*_cache
 *.log
+.coverage
+coverage.xml
